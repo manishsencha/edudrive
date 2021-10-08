@@ -6,6 +6,7 @@ import Dashboard from "./Components/DashBoard/Dashboard"
 import PrivateRoute from "./Utils/PrivateRoute"
 import EditProfile from "./Components/EditProfile/EditProfile"
 import ForgotPassword from "./Components/ForgotPassword/ForgotPassword"
+import Home from "./Components/Home/Home"
 function App() {
   return (
     <Router>
@@ -13,6 +14,7 @@ function App() {
         <Switch>
           <PrivateRoute exact path="/" component={Dashboard} />
           <PrivateRoute path="/editprofile" component={EditProfile} />
+          <Route path="/home" component={Home} />
           <Route path="/signup" component={Signup} />
           <Route path="/login" component={Login} />
           <Route path="/forgotpassword" component={ForgotPassword} />

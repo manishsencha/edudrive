@@ -18,9 +18,9 @@
     "web-vitals": "^1.1.2"
   },
   "scripts": {
-    "push" : "git add . && git commit -m UIBuild && git push",
-    "pullanddeploy" : "git pull && npm run build && firebase deploy",
-    "pushanddeploy" : "npm run push && npm run build && firebase deploy",
+    "push": "git add . && git commit -m UIBuild && git push",
+    "pullanddeploy": "git pull && npm run build && firebase deploy",
+    "pushanddeploy": "npm run push && npm run build && firebase deploy",
     "linuxDeploy": "npm run push && GENERATE_SOURCEMAP=false react-scripts build && firebase deploy",
     "start": "react-scripts start",
     "build": "react-scripts build",
