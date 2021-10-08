@@ -1,0 +1,20 @@
+#dashboard{
+    max-width: 400px;
+    padding : 1rem;
+    display: flex;
+    flex-direction: column;
+   
+    justify-content: center;
+    border: 2px solid rgb(var(--primary-color-2));
+    border-radius: 10px;
+}
+.dashboard-title{
+    font-size: 25px;
+    margin-bottom: 1rem;
+    font-weight: bold;
+    text-align: center;
+}
+.dashboard-data{
+    font-size: 21px;
+    margin-bottom: 1rem;
+}
