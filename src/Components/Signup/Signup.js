@@ -3,6 +3,7 @@ import "./Signup.css"
 import { useAuth } from "../../Contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
 import Alert from "../Alert/Alert"
+import signup_banner from './signup_banner.png'
 function Signup() {
   const [message, setMessage] = useState("")
   const [severity, setSeverity] = useState("")
@@ -105,7 +106,11 @@ function Signup() {
           </h3>
         </div>
       </div>
+      <div>
+    <img src={signup_banner}></img>
+  </div>
     </div>
+    
   )
 }
 

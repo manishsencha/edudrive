@@ -12,8 +12,8 @@ function Home() {
                 <h1 style={{textAlign:"center",marginBottom:"1rem"}}>EduDrive</h1>
                 <p>Giving new dimension to modern education</p>
                 <div className="home-nav">
-                    <a href="/login"><Button variant="contained">Login</Button></a>
-                    <a href="/signup"><Button variant="contained">Signup</Button></a>
+                    <a href="/login"><Button style={{backgroundColor:'rgb(var(--btn-color))',color:'white'}} variant="contained">Login</Button></a>
+                    <a href="/signup"><Button style={{backgroundColor:'rgb(var(--btn-color))',color:'white'}} variant="contained">Signup</Button></a>
                 </div>
             </div>
         </div>
