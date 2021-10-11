@@ -83,7 +83,7 @@ function Login() {
           <h3>
             Need an account? <Link to="/signup">Sign Up</Link>
           </h3>
-          <button className="form-button" style={{ marginTop: "1rem" }}>
+          <button className="form-button" style={{ marginTop: "1rem"}}>
             <Link
               to="/forgotpassword"
               style={{ color: "inherit", textDecoration: "none" }}>
