@@ -48,7 +48,7 @@ function Login() {
           <h1>Log In</h1>
           <div style={{ marginTop: "1rem" }}>
             {message && <Alert severity={severity} message={message} />}
-          </div>
+         </div>
           <form className="form" onSubmit={handleSubmit}>
             <div className="form-field-container">
               <label className="form-label" htmlFor="email">
@@ -60,7 +60,7 @@ function Login() {
                 placeholder="Enter Email"
                 ref={emailRef}
                 required
-              />
+              /> 
             </div>
             <div className="form-field-container">
               <label className="form-label" htmlFor="password">
