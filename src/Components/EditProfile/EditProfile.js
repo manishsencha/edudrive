@@ -147,7 +147,11 @@ function EditProfile() {
           </form>
 
           <Link to="/">
-            <button className="form-button">Back</button>
+            <button
+              className="form-button"
+              style={{ color: "rgb(var(--btn-color))" }}>
+              Back
+            </button>
           </Link>
         </div>
       </div>

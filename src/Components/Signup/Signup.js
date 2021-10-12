@@ -3,7 +3,7 @@ import "./Signup.css"
 import { useAuth } from "../../Contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
 import Alert from "../Alert/Alert"
-import signup_banner from './signup_banner.png'
+import signup_banner from "./Assets/signup_banner.png"
 function Signup() {
   const [message, setMessage] = useState("")
   const [severity, setSeverity] = useState("")
@@ -96,7 +96,8 @@ function Signup() {
               />
             </div>
             <div className="form-submit-container">
-              <button className="form-button" type="submit" disabled={loading}>
+              <button className="form-button" type="submit" disabled={loading} 
+                style={{BackgroundColor:'rgb(var(--btn-color))'}}>
                 {loading ? "Signing up..." : "Signup"}
               </button>
             </div>
@@ -106,11 +107,8 @@ function Signup() {
           </h3>
         </div>
       </div>
-      <div>
-    <img src={signup_banner}></img>
-  </div>
+      <img src={signup_banner} alt="signup sticky banner" style={{position:"fixed", right : "0.5rem", bottom : "0.5rem"}}/> 
     </div>
-    
   )
 }
 
