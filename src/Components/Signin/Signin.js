@@ -47,6 +47,15 @@ export default function Signin() {
     setLoading(true)
     setMessage("")
     setSeverity("")
+    if (
+      !(
+        emailRef.current.reportValidity() &&
+        passwordRef.current.reportValidity()
+      )
+    ) {
+      setLoading(false)
+      return
+    }
     await login(emailRef.current.value, passwordRef.current.value)
       .then(() => {
         setSeverity("success")
@@ -96,6 +105,7 @@ export default function Signin() {
               noValidate
               sx={{ mt: 1 }}>
               <TextField
+                required
                 margin="normal"
                 fullWidth
                 id="email"
@@ -106,6 +116,7 @@ export default function Signin() {
                 autoFocus
               />
               <TextField
+                required
                 margin="normal"
                 fullWidth
                 name="password"

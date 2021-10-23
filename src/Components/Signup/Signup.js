@@ -1,10 +1,39 @@
 import React, { useState, useRef } from "react"
-import "./Signup.css"
+import Avatar from "@mui/material/Avatar"
+import Button from "@mui/material/Button"
+import CssBaseline from "@mui/material/CssBaseline"
+import TextField from "@mui/material/TextField"
+import Link from "@mui/material/Link"
+import Grid from "@mui/material/Grid"
+import Box from "@mui/material/Box"
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined"
+import Typography from "@mui/material/Typography"
+import Container from "@mui/material/Container"
+import { createTheme, ThemeProvider } from "@mui/material/styles"
 import { useAuth } from "../../Contexts/AuthContext"
-import { Link, useHistory } from "react-router-dom"
-import Alert from "../Alert/Alert"
-import signup_banner from "./Assets/signup_banner.png"
-function Signup() {
+import { useHistory } from "react-router-dom"
+import { Alert } from "@mui/material"
+import "./Signup.css"
+function Copyright(props) {
+  return (
+    <Typography
+      variant="body2"
+      color="text.secondary"
+      align="center"
+      {...props}>
+      {"Copyright © "}
+      <Link color="inherit" href="#">
+        EduDrive
+      </Link>{" "}
+      {new Date().getFullYear()}
+      {"."}
+    </Typography>
+  )
+}
+
+const theme = createTheme()
+
+export default function SignUp() {
   const [message, setMessage] = useState("")
   const [severity, setSeverity] = useState("")
   const [loading, setLoading] = useState(false)
@@ -16,12 +45,23 @@ function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setMessage("")
+    setLoading(true)
+    if (
+      !(
+        emailRef.current.reportValidity() &&
+        passwordRef.current.reportValidity() &&
+        passwordConfirmRef.current.reportValidity()
+      )
+    ) {
+      setLoading(false)
+      return
+    }
     if (passwordRef.current.value !== passwordConfirmRef.current.value) {
       setSeverity("error")
+      setLoading(false)
       return setMessage("Passwords do not match")
     }
     try {
-      setLoading(true)
       await signup(emailRef.current.value, passwordRef.current.value)
       setSeverity("success")
       setMessage("Signed Up Successfully")
@@ -47,69 +87,84 @@ function Signup() {
     }
     setLoading(false)
   }
-
   return (
-    <div className="central-container">
-      <div id="signup">
-        <div id="form">
-          <h1>Create an Account</h1>
-          <div style={{ marginTop: "1rem" }}>
-            {message && (
-              <Alert key={message} severity={severity} message={message} />
-            )}
-          </div>
-          <form className="form" onSubmit={handleSubmit}>
-            <div className="form-field-container">
-              <label className="form-label" htmlFor="email">
-                Email
-              </label>
-              <input
-                className="form-input"
-                type="email"
-                placeholder="Enter Email"
-                ref={emailRef}
-                required
-              />
-            </div>
-            <div className="form-field-container">
-              <label className="form-label" htmlFor="password">
-                Password
-              </label>
-              <input
-                className="form-input"
-                type="password"
-                placeholder="Enter password"
-                ref={passwordRef}
-                required
-              />
-            </div>
-            <div className="form-field-container">
-              <label className="form-label" htmlFor="password">
-                Confirm Password
-              </label>
-              <input
-                className="form-input"
-                type="password"
-                placeholder="Re-enter password"
-                ref={passwordConfirmRef}
-                required
-              />
-            </div>
-            <div className="form-submit-container">
-              <button className="form-button" type="submit" disabled={loading} 
-                style={{BackgroundColor:'rgb(var(--btn-color))'}}>
-                {loading ? "Signing up..." : "Signup"}
-              </button>
-            </div>
-          </form>
-          <h3>
-            Already have an account? <Link to="/login">Log In</Link>{" "}
-          </h3>
-        </div>
-      </div>
-      <img src={signup_banner} alt="signup sticky banner" style={{position:"fixed", right : "0.5rem", bottom : "0.5rem"}}/> 
+    <div id="signup">
+      <ThemeProvider theme={theme}>
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}>
+            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Sign up
+            </Typography>
+            {message && <Alert severity={severity}>{message}</Alert>}
+            <Box
+              component="form"
+              noValidate
+              onSubmit={handleSubmit}
+              sx={{ mt: 3 }}>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <TextField
+                    required
+                    fullWidth
+                    inputRef={emailRef}
+                    id="email"
+                    label="Email Address"
+                    name="email"
+                    autoComplete="email"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    required
+                    fullWidth
+                    inputRef={passwordRef}
+                    name="password"
+                    label="Password"
+                    type="password"
+                    id="password"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    required
+                    fullWidth
+                    inputRef={passwordConfirmRef}
+                    name="confirm-password"
+                    label="Confirm Password"
+                    type="password"
+                    id="confirm-password"
+                  />
+                </Grid>
+              </Grid>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                disabled={loading}
+                sx={{ mt: 3, mb: 2 }}>
+                {loading ? "Signing up..." : "Sign Up"}
+              </Button>
+              <Grid container justifyContent="flex-end">
+                <Grid item>
+                  <Link href="/signin" variant="body2">
+                    Already have an account? Sign in
+                  </Link>
+                </Grid>
+              </Grid>
+            </Box>
+          </Box>
+          <Copyright sx={{ mt: 5 }} />
+        </Container>
+      </ThemeProvider>
     </div>
   )
 }
-
-export default Signup

@@ -1,5 +1,5 @@
 import React from "react"
-import { Button } from "@mui/material"
+import { Button, Link } from "@mui/material"
 import home_banner from "./Assets/Home_banner.png"
 import "./Home.css"
 
@@ -16,7 +16,7 @@ function Home() {
           </h1>
           <p>Giving new dimension to modern education</p>
           <div className="home-nav">
-            <a href="/signin">
+            <Link underline="none" href="/signin">
               <Button
                 style={{
                   backgroundColor: "rgb(var(--btn-color))",
@@ -25,8 +25,8 @@ function Home() {
                 variant="contained">
                 Login
               </Button>
-            </a>
-            <a href="/signup">
+            </Link>
+            <Link underline="none" href="/signup">
               <Button
                 style={{
                   backgroundColor: "rgb(var(--btn-color))",
@@ -35,7 +35,7 @@ function Home() {
                 variant="contained">
                 Signup
               </Button>
-            </a>
+            </Link>
           </div>
         </div>
       </div>
