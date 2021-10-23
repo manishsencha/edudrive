@@ -1,5 +1,5 @@
 import React from "react"
-import { Button } from "@material-ui/core"
+import { Button } from "@mui/material"
 import home_banner from "./Assets/Home_banner.png"
 import "./Home.css"
 
@@ -16,7 +16,7 @@ function Home() {
           </h1>
           <p>Giving new dimension to modern education</p>
           <div className="home-nav">
-            <a href="/login">
+            <a href="/signin">
               <Button
                 style={{
                   backgroundColor: "rgb(var(--btn-color))",

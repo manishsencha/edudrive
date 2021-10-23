@@ -1,97 +1,16 @@
 :root {
-  --primary-color: 119,155,246;
-  --secondary-color: 167,169,242;
-  --text-color: 0, 0, 0;
-  --primary-color-2: 223, 217, 226;
-  --primary-color-3: 79, 54, 89;
-  --btn-color: 73,84,186;
+  --primary-color: 119, 155, 246; /* #779bf6 */
+  --secondary-color: 167, 169, 242; /* #a7a9f2 */
+  --primary-text-color: 0, 0, 0; /* #000000 */
+  --secondary-text-color-2: 255, 255, 255; /*#fffff*/
+  --btn-color: 73, 84, 186;
 }
 
 * {
   margin: 0;
   font-family: "Poppins", sans-serif;
 }
-a {
-  text-decoration: none;
-  color: rgb(var(--primary-color));
-  width: 100%;
-}
-body {
-  height: 100vh;
-  background-color: white;
-}
-.form-label {
-  font-size: 20px;
-  margin-bottom: 5px;
-}
-.form-input {
-  outline: none;
-  border: none;
-  background-color: rgb(var(--primary-color), 0.5);
-  height: 2rem;
-  padding: 4px;
-  font-size: 1.12rem;
-  border-radius: 5px;
-}
-.form-input:focus {
-  box-shadow: 0 0 10px 0 rgb(var(--primary-color));
-}
-.form-button {
-  width: 100%;
-  height: 50px;
-  border: none;
-  background-color: rgb(var(--btn-color));
-  color: rgb(255, 255, 255);
-  font-size: 20px;
-  border-radius: 0.25rem;
-  cursor: pointer;
-  padding: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color 0.1s ease-in-out;
-}
-.form-button:hover {
-  background-color: rgb(var(--btn-color), 0.9);
-}
-.form-button:disabled {
-  background-color: rgb(var(--btn-color), 0.6);
-}
 
-#form {
-  background-color: whitesmoke;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border: 2px solid cornflowerblue;
-  max-width: 400px;
-  padding: 1rem;
-  border-radius: 10px;
-}
-.form {
-  width: 100%;
-  margin-top: 1rem;
-  padding: 1rem;
-}
-.form-field-container {
-  margin: 10px auto;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.form-submit-container {
-  display: flex;
-  width: 100%;
-}
-#root {
-  height: 100%;
-  overflow : hidden;
-}
-.central-container {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+#root{
+  min-height: 100vh;
 }

@@ -1,4 +1,4 @@
-import { Alert } from "@material-ui/lab"
+import { Alert } from "@mui/material"
 
 const MUIAlert = (props) => {
   return <Alert severity={props.severity}>{props.message}</Alert>

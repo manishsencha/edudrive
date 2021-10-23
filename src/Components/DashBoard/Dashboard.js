@@ -20,7 +20,7 @@ function Dashboard() {
         setSeverity("success")
         setMessage("Logout Successful")
         setLoading(false)
-        history.push("/login")
+        history.push("/signin")
       })
     } catch (err) {
       setSeverity("error")
