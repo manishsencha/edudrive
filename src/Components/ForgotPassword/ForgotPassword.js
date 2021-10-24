@@ -1,9 +1,39 @@
 import React, { useRef, useState } from "react"
-import { Link } from "react-router-dom"
-import { useAuth } from "../../Contexts/AuthContext"
-import Alert from "../Alert/Alert"
+import Avatar from "@mui/material/Avatar"
+import Button from "@mui/material/Button"
+import CssBaseline from "@mui/material/CssBaseline"
+import TextField from "@mui/material/TextField"
+import Link from "@mui/material/Link"
+import Grid from "@mui/material/Grid"
+import Box from "@mui/material/Box"
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined"
+import Typography from "@mui/material/Typography"
+import Container from "@mui/material/Container"
+import { createTheme, ThemeProvider } from "@mui/material/styles"
 import "./ForgotPassword.css"
-function ForgotPassword() {
+import { useAuth } from "../../Contexts/AuthContext"
+import { Alert } from "@mui/material"
+
+function Copyright(props) {
+  return (
+    <Typography
+      variant="body2"
+      color="text.secondary"
+      align="center"
+      {...props}>
+      {"Copyright © "}
+      <Link color="inherit" href="#">
+        EduDrive
+      </Link>{" "}
+      {new Date().getFullYear()}
+      {"."}
+    </Typography>
+  )
+}
+
+const theme = createTheme()
+
+export default function ForgotPassword() {
   const [loading, setLoading] = useState(false)
   const [severity, setSeverity] = useState("")
   const [message, setMessage] = useState("")
@@ -33,41 +63,58 @@ function ForgotPassword() {
     setLoading(false)
   }
   return (
-    <div className="central-container">
-      <div id="forgotpassword">
-        <div id="form">
-          <h1>Forgot Password</h1>
-          <div style={{ marginTop: "1rem" }}>
-            {message && (
-              <Alert key={message} severity={severity} message={message} />
-            )}
-          </div>
-          <form className="form" onSubmit={handleSubmit}>
-            <div className="form-field-container">
-              <label className="form-label" htmlFor="email">
-                Email
-              </label>
-              <input
-                className="form-input"
-                type="email"
-                placeholder="Enter Email"
-                ref={emailRef}
-                required
-              />
-            </div>
-            <div className="form-submit-container">
-              <button className="form-button" type="submit" disabled={loading}>
-                {loading ? "Sending Link.." : "Send link"}
-              </button>
-            </div>
-          </form>
-          <Link to="/login">
-            <button className="form-button">Back</button>
-          </Link>
-        </div>
-      </div>
-    </div>
+    <ThemeProvider theme={theme}>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}>
+          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Forgot Password
+          </Typography>
+          {message && <Alert severity={severity}>{message}</Alert>}
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{ mt: 1 }}>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              autoFocus
+            />
+            <Button
+              type="submit"
+              fullWidth
+              disabled={loading}
+              variant="contained"
+              sx={{ mt: 2, mb: 2 }}>
+              {loading ? "Sending Link..." : "Send Reset Link"}
+            </Button>
+            <Grid container>
+              <Grid item sx={{ width: "100%" }}>
+                <Link href="/signin" underline="none" variant="body2">
+                  <Button fullWidth variant="contained" disabled={loading}>
+                    SignIn
+                  </Button>
+                </Link>
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
+        <Copyright sx={{ mt: 8, mb: 4 }} />
+      </Container>
+    </ThemeProvider>
   )
 }
-
-export default ForgotPassword
