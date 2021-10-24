@@ -1,9 +1,19 @@
 import React, { useState, useRef } from "react"
+import Avatar from "@mui/material/Avatar"
+import Button from "@mui/material/Button"
+import CssBaseline from "@mui/material/CssBaseline"
+import TextField from "@mui/material/TextField"
+import FormControlLabel from "@mui/material/FormControlLabel"
+import Checkbox from "@mui/material/Checkbox"
+import Grid from "@mui/material/Grid"
+import Box from "@mui/material/Box"
+import Typography from "@mui/material/Typography"
+import Container from "@mui/material/Container"
+import { createTheme, ThemeProvider } from "@mui/material/styles"
 import { useAuth } from "../../Contexts/AuthContext"
-import { Link } from "react-router-dom"
-import Alert from "../Alert/Alert"
-import "./EditProfile.css"
-function EditProfile() {
+const theme = createTheme()
+
+export default function SignIn() {
   const [message, setMessage] = useState("")
   const [severity, setSeverity] = useState("")
   const [loading, setLoading] = useState(false)
@@ -12,7 +22,7 @@ function EditProfile() {
   const passwordRef = useRef()
   const passwordConfirmRef = useRef()
   const { passwordUpdate, emailUpdate, currentUser, profileUpdate } = useAuth()
-
+  console.log(currentUser)
   const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
@@ -80,83 +90,66 @@ function EditProfile() {
   }
 
   return (
-    <div className="central-container">
-      <div id="editprofile">
-        <div id="form">
-          <h1>Edit Profile</h1>
-          <div style={{ marginTop: "1rem" }}>
-            {message && (
-              <Alert key={message} severity={severity} message={message} />
-            )}
-          </div>
-          <form className="form" onSubmit={handleSubmit}>
-            <div className="form-field-container">
-              <label className="form-label" htmlFor="name">
-                Name
-              </label>
-              <input
-                className="form-input"
-                type="text"
-                placeholder="Enter your name"
-                ref={nameRef}
-                defaultValue={
-                  currentUser.displayName ? currentUser.displayName : ""
-                }
-              />
-            </div>
-            <div className="form-field-container">
-              <label className="form-label" htmlFor="email">
-                Email
-              </label>
-              <input
-                className="form-input"
-                type="email"
-                placeholder="Enter Email"
-                ref={emailRef}
-                defaultValue={currentUser.email}
-              />
-            </div>
-
-            <div className="form-field-container">
-              <label className="form-label" htmlFor="password">
-                Password
-              </label>
-              <input
-                className="form-input"
-                type="password"
-                placeholder="Enter password"
-                ref={passwordRef}
-              />
-            </div>
-            <div className="form-field-container">
-              <label className="form-label" htmlFor="password">
-                Confirm Password
-              </label>
-              <input
-                className="form-input"
-                type="password"
-                placeholder="Re-enter password"
-                ref={passwordConfirmRef}
-              />
-            </div>
-            <div className="form-submit-container">
-              <button className="form-button" type="submit" disabled={loading}>
-                {loading ? "Updating details..." : "Submit"}
-              </button>
-            </div>
-          </form>
-
-          <Link to="/">
-            <button
-              className="form-button"
-              style={{ color: "rgb(var(--btn-color))" }}>
-              Back
-            </button>
-          </Link>
-        </div>
-      </div>
-    </div>
+    <ThemeProvider theme={theme}>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 8,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}>
+          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+       
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Edit Profile
+          </Typography>
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{ mt: 1 }}>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              autoFocus
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+            />
+            <FormControlLabel
+              control={<Checkbox value="remember" color="primary" />}
+              label="Remember me"
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}>
+              Sign In
+            </Button>
+            <Grid container>
+              <Grid item>
+               
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
+      </Container>
+    </ThemeProvider>
   )
 }
-
-export default EditProfile

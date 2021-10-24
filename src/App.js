@@ -8,10 +8,12 @@ import EditProfile from "./Components/EditProfile/EditProfile"
 import ForgotPassword from "./Components/ForgotPassword/ForgotPassword"
 import Home from "./Components/Home/Home"
 import Signin from "./Components/Signin/Signin"
+import NavBar from "./Components/NavBar/NavBar"
 function App() {
   return (
     <Router>
       <AuthProvider>
+        <NavBar/>
         <Switch>
           <PrivateRoute exact path="/" component={Dashboard} />
           <PrivateRoute path="/editprofile" component={EditProfile} />
