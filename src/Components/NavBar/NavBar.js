@@ -7,10 +7,22 @@ import Button from "@mui/material/Button"
 import IconButton from "@mui/material/IconButton"
 import MenuIcon from "@mui/icons-material/Menu"
 import { useAuth } from "../../Contexts/AuthContext"
+import LeftDrawer from "./LeftDrawer/LeftDrawer"
 function NavBar() {
   const { currentUser } = useAuth()
+  const [open, setOpen] = React.useState(false)
+  const toggleDrawer = (event) => {
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return
+    }
+    setOpen(!open)
+  }
   return (
     <Box sx={{ flexGrow: 1 }}>
+      <LeftDrawer status={open} toggle={toggleDrawer}/>
       <AppBar position="static">
         <Toolbar>
           <IconButton
@@ -18,6 +30,7 @@ function NavBar() {
             edge="start"
             color="inherit"
             aria-label="menu"
+            onClick={toggleDrawer}
             sx={{ mr: 2 }}>
             <MenuIcon />
           </IconButton>
