@@ -52,9 +52,14 @@ export default function ForgotPassword() {
       )
     } catch (err) {
       setSeverity("error")
+      console.log(err)
       if (err.code === "auth/invalid-email") {
         setMessage("Please enter a valid email")
-      } else if (err.code === "auth/user-not-found") {
+      }
+      if (err.code === "auth/missing-email") {
+        setMessage("Please enter email")
+      }
+       else if (err.code === "auth/user-not-found") {
         setMessage("User does not exist")
       } else {
         setMessage("Something went wrong")
@@ -92,6 +97,7 @@ export default function ForgotPassword() {
               label="Email Address"
               name="email"
               autoComplete="email"
+              inputRef={emailRef}
               autoFocus
             />
             <Button
