@@ -8,6 +8,7 @@ import IconButton from "@mui/material/IconButton"
 import MenuIcon from "@mui/icons-material/Menu"
 import { useAuth } from "../../Contexts/AuthContext"
 import LeftDrawer from "./LeftDrawer/LeftDrawer"
+import { Link } from "@mui/material"
 function NavBar() {
   const { currentUser } = useAuth()
   const [open, setOpen] = React.useState(false)
@@ -40,7 +41,7 @@ function NavBar() {
           {currentUser ? (
             currentUser.displayName
           ) : (
-            <Button color="inherit">Login</Button>
+            <Button color="inherit"><Link href="/signin" style={{color : "inherit"}}>Signin</Link></Button>
           )}
         </Toolbar>
       </AppBar>
