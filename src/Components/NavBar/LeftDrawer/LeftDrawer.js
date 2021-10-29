@@ -11,6 +11,8 @@ import LogoutIcon from "@mui/icons-material/Logout"
 import BookIcon from "@mui/icons-material/Book"
 import { useAuth } from "../../../Contexts/AuthContext"
 import { useHistory } from "react-router-dom"
+import { AccountBox } from "@mui/icons-material"
+import { Avatar } from "@mui/material"
 export default function LeftDrawer(props) {
   const history = useHistory()
   const { currentUser, logout } = useAuth()
@@ -21,32 +23,69 @@ export default function LeftDrawer(props) {
     } catch {}
   }
   return (
-    <Drawer anchor="left" open={props.status} onClose={props.toggle}>
+    <Drawer
+      anchor="left"
+      style={{ zIndex: 0 }}
+      open={props.status}
+      onClose={props.toggle}>
       <Box
-        sx={{ width: 250 }}
+        sx={{
+          width: 250,
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+        }}
         role="presentation"
         onClick={props.toggle}
         onKeyDown={props.toggle}>
         {currentUser ? (
-          <List>
-            <ListItem button>
-              <Link
-                style={{ width: "100%", display: "flex" }}
-                underline="none"
-                href="/courses">
-                <ListItemIcon>
-                  <BookIcon />
-                </ListItemIcon>
-                <ListItemText primary="Courses" />
-              </Link>
-            </ListItem>
+          <>
+            <List>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  margin: "10px 0",
+                }}>
+                <Avatar>
+                  {currentUser ? currentUser.displayName[0] : "E"}
+                </Avatar>
+                <ListItemText
+                  primary={currentUser ? currentUser.displayName : "NO NAME"}
+                />
+              </div>
+              <ListItem button>
+                <Link
+                  style={{ width: "100%", display: "flex" }}
+                  underline="none"
+                  href="/profile">
+                  <ListItemIcon>
+                    <AccountBox />
+                  </ListItemIcon>
+                  <ListItemText primary="My Profile" />
+                </Link>
+              </ListItem>
+              <ListItem button>
+                <Link
+                  style={{ width: "100%", display: "flex" }}
+                  underline="none"
+                  href="/courses">
+                  <ListItemIcon>
+                    <BookIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Courses" />
+                </Link>
+              </ListItem>
+            </List>
             <ListItem onClick={handleLogout} button>
               <ListItemIcon>
                 <LogoutIcon />
               </ListItemIcon>
               <ListItemText primary="Logout" />
             </ListItem>
-          </List>
+          </>
         ) : (
           <List>
             <ListItem button>

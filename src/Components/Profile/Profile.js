@@ -13,7 +13,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles"
 import { useAuth } from "../../Contexts/AuthContext"
 const theme = createTheme()
 
-export default function SignIn() {
+export default function Profile() {
   const [message, setMessage] = useState("")
   const [severity, setSeverity] = useState("")
   const [loading, setLoading] = useState(false)

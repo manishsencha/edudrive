@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react"
 import { getAuth } from "firebase/auth"
-import app from "../Utils/firebase"
+import app, { db } from "../Utils/firebase"
+import { collection, getDoc, getDocs } from "@firebase/firestore"
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -20,6 +21,7 @@ export function useAuth() {
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState()
   const [loading, setLoading] = useState(true)
+  const [admin, setAdmin] = useState(false)
   function login(email, password) {
     return signInWithEmailAndPassword(auth, email, password)
   }
@@ -43,8 +45,22 @@ export function AuthProvider({ children }) {
     return updateProfile(currentUser, { displayName: name })
   }
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setCurrentUser(user)
+      try {
+        const querySnapshot = await getDocs(collection(db, "adminData"))
+        console.log(querySnapshot)
+        if (querySnapshot) {
+          querySnapshot.forEach((doc) => {
+            const emails = doc.data()
+            if (user.email in emails) {
+              setAdmin(true)
+            }
+          })
+        }
+      } catch (e) {
+        setAdmin(false)
+      }
       setLoading(false)
     })
     return unsubscribe
@@ -52,6 +68,7 @@ export function AuthProvider({ children }) {
 
   const value = {
     currentUser,
+    admin,
     signup,
     login,
     logout,

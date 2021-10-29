@@ -4,7 +4,7 @@ import { AuthProvider } from "./Contexts/AuthContext"
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 import Dashboard from "./Components/DashBoard/Dashboard"
 import PrivateRoute from "./Utils/PrivateRoute"
-import EditProfile from "./Components/EditProfile/EditProfile"
+import Profile from "./Components/Profile/Profile"
 import ForgotPassword from "./Components/ForgotPassword/ForgotPassword"
 import Home from "./Components/Home/Home"
 import Signin from "./Components/Signin/Signin"
@@ -13,10 +13,10 @@ function App() {
   return (
     <Router>
       <AuthProvider>
-        <NavBar/>
+        <NavBar />
         <Switch>
           <PrivateRoute exact path="/" component={Dashboard} />
-          <PrivateRoute path="/editprofile" component={EditProfile} />
+          <PrivateRoute path="/profile" component={Profile} />
           <Route path="/home" component={Home} />
           <Route path="/signup" component={Signup} />
           <Route path="/signin" component={Signin} />
