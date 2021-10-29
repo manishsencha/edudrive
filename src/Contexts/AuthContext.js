@@ -25,7 +25,6 @@ export function AuthProvider({ children }) {
   function login(email, password) {
     return signInWithEmailAndPassword(auth, email, password)
   }
-
   function signup(email, password) {
     return createUserWithEmailAndPassword(auth, email, password)
   }
@@ -47,20 +46,6 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setCurrentUser(user)
-      try {
-        const querySnapshot = await getDocs(collection(db, "adminData"))
-        console.log(querySnapshot)
-        if (querySnapshot) {
-          querySnapshot.forEach((doc) => {
-            const emails = doc.data()
-            if (user.email in emails) {
-              setAdmin(true)
-            }
-          })
-        }
-      } catch (e) {
-        setAdmin(false)
-      }
       setLoading(false)
     })
     return unsubscribe
