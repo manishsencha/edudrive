@@ -58,7 +58,7 @@ export function AuthProvider({ children }) {
       try {
         const docSnap = await getDoc(doc(db, "adminData/data"))
         if (docSnap.exists()) {
-          if (docSnap.data().emails.includes(currentUser.email)) {
+          if (docSnap.data().emails.includes(user.email)) {
             setAdmin(true)
           }
         }
