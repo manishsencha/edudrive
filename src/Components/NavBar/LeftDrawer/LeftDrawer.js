@@ -49,12 +49,18 @@ export default function LeftDrawer(props) {
                   alignItems: "center",
                   margin: "10px 0",
                 }}>
-                <Avatar>
-                  {currentUser ? currentUser.displayName[0] : "E"}
-                </Avatar>
-                <ListItemText
-                  primary={currentUser ? currentUser.displayName : "NO NAME"}
-                />
+                {currentUser.displayName && (
+                  <React.Fragment>
+                    <Avatar>
+                      {currentUser ? currentUser.displayName[0] : "E"}
+                    </Avatar>
+                    <ListItemText
+                      primary={
+                        currentUser ? currentUser.displayName : "NO NAME"
+                      }
+                    />
+                  </React.Fragment>
+                )}
               </div>
               <ListItem button>
                 <Link

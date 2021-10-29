@@ -23,7 +23,7 @@ function NavBar() {
   }
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <LeftDrawer status={open} toggle={toggleDrawer}/>
+      <LeftDrawer status={open} toggle={toggleDrawer} />
       <AppBar position="static">
         <Toolbar>
           <IconButton
@@ -39,9 +39,13 @@ function NavBar() {
             EduDrive
           </Typography>
           {currentUser ? (
-            currentUser.displayName
+            currentUser.displayName && currentUser.displayName
           ) : (
-            <Button color="inherit"><Link href="/signin" style={{color : "inherit"}}>Signin</Link></Button>
+            <Button color="inherit">
+              <Link href="/signin" style={{ color: "inherit" }}>
+                Signin
+              </Link>
+            </Button>
           )}
         </Toolbar>
       </AppBar>

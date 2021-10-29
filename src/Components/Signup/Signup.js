@@ -37,6 +37,7 @@ export default function SignUp() {
   const [message, setMessage] = useState("")
   const [severity, setSeverity] = useState("")
   const [loading, setLoading] = useState(false)
+  const nameRef = useRef()
   const emailRef = useRef()
   const passwordRef = useRef()
   const passwordConfirmRef = useRef()
@@ -48,6 +49,7 @@ export default function SignUp() {
     setLoading(true)
     if (
       !(
+        nameRef.current.reportValidity() &&
         emailRef.current.reportValidity() &&
         passwordRef.current.reportValidity() &&
         passwordConfirmRef.current.reportValidity()
@@ -62,11 +64,16 @@ export default function SignUp() {
       return setMessage("Passwords do not match")
     }
     try {
-      await signup(emailRef.current.value, passwordRef.current.value)
+      await signup(
+        nameRef.current.value,
+        emailRef.current.value,
+        passwordRef.current.value
+      )
+      console.log("Create Account Success!!")
       setSeverity("success")
       setMessage("Signed Up Successfully")
       setLoading(false)
-      history.push("/signin")
+      history.push("/")
     } catch (e) {
       if (e.code === "auth/weak-password") {
         setMessage("The password is too weak.")
@@ -111,6 +118,17 @@ export default function SignUp() {
               onSubmit={handleSubmit}
               sx={{ mt: 3 }}>
               <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <TextField
+                    required
+                    fullWidth
+                    inputRef={nameRef}
+                    id="name"
+                    label="Full Name"
+                    name="name"
+                    autoComplete="name"
+                  />
+                </Grid>
                 <Grid item xs={12}>
                   <TextField
                     required

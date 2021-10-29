@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react"
 import { getAuth } from "firebase/auth"
 import app, { db } from "../Utils/firebase"
-import { collection, getDoc, getDocs } from "@firebase/firestore"
+import { doc, getDoc } from "@firebase/firestore"
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -25,8 +25,17 @@ export function AuthProvider({ children }) {
   function login(email, password) {
     return signInWithEmailAndPassword(auth, email, password)
   }
-  function signup(email, password) {
-    return createUserWithEmailAndPassword(auth, email, password)
+
+  async function signup(name, email, password) {
+    return createUserWithEmailAndPassword(auth, email, password).then(
+      async (userCred) => {
+        const user = userCred.user
+        if (user) {
+          await updateProfile(user, { displayName: name })
+          console.log(user)
+        }
+      }
+    )
   }
   function logout() {
     return signOut(auth)
@@ -47,15 +56,11 @@ export function AuthProvider({ children }) {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setCurrentUser(user)
       try {
-        const querySnapshot = await getDocs(collection(db, "adminData"))
-        console.log(querySnapshot)
-        if (querySnapshot) {
-          querySnapshot.forEach((doc) => {
-            const emails = doc.data()
-            if (user.email in emails) {
-              setAdmin(true)
-            }
-          })
+        const docSnap = await getDoc(doc(db, "adminData/data"))
+        if (docSnap.exists()) {
+          if (docSnap.data().emails.includes(currentUser.email)) {
+            setAdmin(true)
+          }
         }
       } catch (e) {
         setAdmin(false)
