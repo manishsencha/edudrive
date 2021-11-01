@@ -26,7 +26,7 @@ export default function LeftDrawer(props) {
   return (
     <Drawer
       anchor="left"
-      style={{ zIndex: 0 }}
+      style={{ zIndex: 999 }}
       open={props.status}
       onClose={props.toggle}>
       <Box
