@@ -68,16 +68,9 @@ export default function SignUp() {
         nameRef.current.value,
         emailRef.current.value,
         passwordRef.current.value
-      ).then(
-        () => {
-          console.log("Create Account Success!!")
-          setSeverity("success")
-          setMessage("Signed Up Successfully")
-          setLoading(false)
-          history.push("/")
-        }
       )
-
+      setLoading(false)
+      history.push("/")
     } catch (e) {
       if (e.code === "auth/weak-password") {
         setMessage("The password is too weak.")

@@ -65,9 +65,9 @@ export function AuthProvider({ children }) {
       } catch (e) {
         setAdmin(false)
       }
-      setLoading(false)
     })
-    return unsubscribe
+    setLoading(false)
+    return () => unsubscribe
   }, [])
 
   const value = {
