@@ -35,7 +35,13 @@ function Upload() {
         }
         await addDoc(collection(db, "pendingUploads"), data)
         setUploading(false)
+        setType("")
+        setContent("")
+        setCourse("")
+        setFile("")
+        setTitle("")
       })
+      return
     }
   }
 

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react"
+import React from "react"
 import Avatar from "@mui/material/Avatar"
 import Button from "@mui/material/Button"
 import CssBaseline from "@mui/material/CssBaseline"
@@ -14,81 +14,11 @@ import { useAuth } from "../../Contexts/AuthContext"
 const theme = createTheme()
 
 export default function Profile() {
-  const [message, setMessage] = useState("")
-  const [severity, setSeverity] = useState("")
-  const [loading, setLoading] = useState(false)
-  const emailRef = useRef()
-  const nameRef = useRef()
-  const passwordRef = useRef()
-  const passwordConfirmRef = useRef()
-  const { passwordUpdate, emailUpdate, currentUser, profileUpdate } = useAuth()
+  const {currentUser } = useAuth()
   console.log(currentUser)
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault()
-    setLoading(true)
-    setSeverity("")
-    setMessage("")
-    try {
-      if (nameRef.current.value) {
-        await profileUpdate(nameRef.current.value)
-      }
-    } catch (err) {
-      setSeverity("error")
-      setMessage("Failed to update name")
-      return setLoading(false)
-    }
-    try {
-      if (emailRef.current.value) {
-        await emailUpdate(emailRef.current.value)
-      }
-    } catch (err) {
-      setSeverity("error")
-      if (err.code === "auth/invalid-email") {
-        setMessage("Invalid Email Address")
-        return setLoading(false)
-      } else if (err.code === "auth/email-already-in-use") {
-        setMessage("Email already in use by other user")
-        return setLoading(false)
-      } else if (err.code === "auth/requires-recent-login") {
-        setMessage(
-          "Something went wrong.. Please login again to change the email."
-        )
-        return setLoading(false)
-      } else {
-        setMessage("Failed to update email")
-        return setLoading(false)
-      }
-    }
-
-    try {
-      if (passwordRef.current.value !== passwordConfirmRef.current.value) {
-        setSeverity("error")
-        setMessage("Password do not match")
-        return setLoading(false)
-      }
-      if (passwordRef.current.value) {
-        await passwordUpdate(passwordRef.current.value)
-      }
-    } catch (err) {
-      setSeverity("error")
-      if (err.code === "auth/weak-password") {
-        setMessage("Weak password.. Please enter a strong password")
-        return setLoading(false)
-      } else if (err.code === "auth/requires-recent-login") {
-        setMessage(
-          "Something went wrong.. Please login again to change the password."
-        )
-        return setLoading(false)
-      } else {
-        setMessage("Failed to update email")
-        return setLoading(false)
-      }
-    }
-    setLoading(false)
-    setSeverity("success")
-    setMessage("Updated successfully")
   }
-
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
