@@ -8,14 +8,15 @@ import ListItemIcon from "@mui/material/ListItemIcon"
 import ListItemText from "@mui/material/ListItemText"
 import LoginIcon from "@mui/icons-material/Login"
 import LogoutIcon from "@mui/icons-material/Logout"
+import UploadIcon from "@mui/icons-material/Upload"
 import BookIcon from "@mui/icons-material/Book"
 import { useAuth } from "../../../Contexts/AuthContext"
 import { useHistory } from "react-router-dom"
-import { AccountBox } from "@mui/icons-material"
+import { AccountBox, Preview } from "@mui/icons-material"
 import { Avatar } from "@mui/material"
 export default function LeftDrawer(props) {
   const history = useHistory()
-  const { currentUser, logout } = useAuth()
+  const { currentUser, logout, admin } = useAuth()
   const handleLogout = async (e) => {
     e.preventDefault()
     try {
@@ -31,6 +32,7 @@ export default function LeftDrawer(props) {
       <Box
         sx={{
           width: 250,
+          pt : 10,
           height: "100%",
           display: "flex",
           flexDirection: "column",
@@ -64,7 +66,11 @@ export default function LeftDrawer(props) {
               </div>
               <ListItem button>
                 <Link
-                  style={{ width: "100%", display: "flex" }}
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
                   underline="none"
                   href="/profile">
                   <ListItemIcon>
@@ -75,7 +81,11 @@ export default function LeftDrawer(props) {
               </ListItem>
               <ListItem button>
                 <Link
-                  style={{ width: "100%", display: "flex" }}
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
                   underline="none"
                   href="/courses">
                   <ListItemIcon>
@@ -84,6 +94,38 @@ export default function LeftDrawer(props) {
                   <ListItemText primary="Courses" />
                 </Link>
               </ListItem>
+              <ListItem button>
+                <Link
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                  underline="none"
+                  href="/upload">
+                  <ListItemIcon>
+                    <UploadIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Upload" />
+                </Link>
+              </ListItem>
+              {admin && (
+                <ListItem button>
+                  <Link
+                    style={{
+                      width: "100%",
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                    underline="none"
+                    href="/pendingreviews">
+                    <ListItemIcon>
+                      <Preview />
+                    </ListItemIcon>
+                    <ListItemText primary="Review Uploads" />
+                  </Link>
+                </ListItem>
+              )}
             </List>
             <ListItem onClick={handleLogout} button>
               <ListItemIcon>

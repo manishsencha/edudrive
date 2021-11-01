@@ -22,7 +22,7 @@ function NavBar() {
     setOpen(!open)
   }
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{zIndex:1000, flexGrow: 1, position:"fixed", width : "100%" }}>
       <LeftDrawer status={open} toggle={toggleDrawer} />
       <AppBar position="static">
         <Toolbar>
