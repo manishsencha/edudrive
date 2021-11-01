@@ -25,7 +25,7 @@ export default function Profile() {
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
+            pt: 2,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
