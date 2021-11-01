@@ -1,29 +1,39 @@
-import React from "react"
+import React, { useEffect } from "react"
 import Box from "@mui/material/Box"
 import InputLabel from "@mui/material/InputLabel"
 import MenuItem from "@mui/material/MenuItem"
 import FormControl from "@mui/material/FormControl"
 import Select from "@mui/material/Select"
 import "./Upload.css"
-import { Button, OutlinedInput, TextField } from "@mui/material"
+import {
+  Button,
+  CircularProgress,
+  OutlinedInput,
+  TextField,
+} from "@mui/material"
 import { UploadFile } from "@mui/icons-material"
 import { db, storage } from "../../Utils/firebase"
 import { ref, uploadBytes } from "@firebase/storage"
 import { nanoid } from "nanoid"
-import { addDoc, collection } from "@firebase/firestore"
+import { addDoc, collection, doc, getDoc } from "@firebase/firestore"
 function Upload() {
   const [type, setType] = React.useState("")
   const [course, setCourse] = React.useState("")
   const [title, setTitle] = React.useState("")
   const [content, setContent] = React.useState("")
-  const [file, setFile] = React.useState("")
+  const [file, setFile] = React.useState()
   const [uploading, setUploading] = React.useState(false)
+  const [fetching, setFetching] = React.useState(true)
+  const [courses, setCourses] = React.useState([])
   async function handleSubmit(e) {
     e.preventDefault()
     setUploading(true)
-    console.log("Type : ", type)
+    const fileName = nanoid(10)
     if (type === "pdf") {
-      const fileName = nanoid(10)
+      if (file.type !== "application/pdf") {
+        setUploading(false)
+        return alert("Please select a pdf file")
+      }
       const storageRef = ref(storage, fileName)
       await uploadBytes(storageRef, file).then(async (snapshot) => {
         console.log("Upload Success")
@@ -43,8 +53,29 @@ function Upload() {
       })
       return
     }
+    const data = {
+      content: content,
+      course: course,
+      title: title,
+      type: type,
+    }
+    await addDoc(collection(db, "pendingUploads"), data)
+    setUploading(false)
+    setType("")
+    setContent("")
+    setCourse("")
+    setFile("")
+    setTitle("")
   }
 
+  useEffect(() => {
+    async function fetchData() {
+      const docSnap = await getDoc(doc(db, "courses/course"))
+      setCourses(docSnap.data().coursesName)
+      setFetching(false)
+    }
+    fetchData()
+  }, [])
   return (
     <div id="upload-page">
       <Box sx={{ maxWidth: 400, width: "100%" }}>
@@ -65,19 +96,30 @@ function Upload() {
               </Select>
             </FormControl>
             <FormControl sx={{ my: 2 }} fullWidth>
-              <InputLabel id="upload-course-label">Course</InputLabel>
-              <Select
-                labelId="upload-course-label"
-                id="upload-course-select"
-                value={course}
-                label="Course"
-                onChange={(e) => setCourse(e.target.value)}>
-                <MenuItem value="theoryofcomputation">
-                  Theory of Computation
-                </MenuItem>
-                <MenuItem value="dbms">DBMS</MenuItem>
-                <MenuItem value="mathematics">Mathematics</MenuItem>
-              </Select>
+              {fetching ? (
+                <>
+                  <CircularProgress />
+                  <p>Loading Courses</p>
+                </>
+              ) : (
+                <>
+                  <InputLabel id="upload-course-label">Course</InputLabel>
+                  <Select
+                    labelId="upload-course-label"
+                    id="upload-course-select"
+                    value={course}
+                    label="Course"
+                    onChange={(e) => setCourse(e.target.value)}>
+                    {courses.length
+                      ? courses.map((e, i) => (
+                          <MenuItem key={i} value={e}>
+                            {e}
+                          </MenuItem>
+                        ))
+                      : ""}
+                  </Select>
+                </>
+              )}
             </FormControl>
             <TextField
               sx={{ my: 2 }}
