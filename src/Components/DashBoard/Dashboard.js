@@ -3,7 +3,7 @@ import { useAuth } from "../../Contexts/AuthContext"
 
 function Dashboard() {
   const { admin } = useAuth()
-  console.log(admin)
+  console.log("Admin :", admin)
   return <div></div>
 }
 

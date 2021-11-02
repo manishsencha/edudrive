@@ -68,9 +68,7 @@ export default function SignUp() {
         nameRef.current.value,
         emailRef.current.value,
         passwordRef.current.value
-      )
-      setLoading(false)
-      history.push("/")
+      ).then(() => history.push("/"))
     } catch (e) {
       if (e.code === "auth/weak-password") {
         setMessage("The password is too weak.")
@@ -88,8 +86,8 @@ export default function SignUp() {
         setSeverity("error")
         setMessage("Something unexpected happened!")
       }
+      setLoading(false)
     }
-    setLoading(false)
   }
   return (
     <div id="signup">

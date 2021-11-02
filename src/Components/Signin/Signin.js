@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react"
+import React, { useState, useRef } from "react"
 import Avatar from "@mui/material/Avatar"
 import Button from "@mui/material/Button"
 import CssBaseline from "@mui/material/CssBaseline"
@@ -41,17 +41,23 @@ export default function Signin() {
   const passwordRef = useRef()
   const { login } = useAuth()
   const history = useHistory()
-  const mountRef = useRef(null)
-  useEffect(() => {
-    mountRef.current = true
-  })
   const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
     setMessage("")
     setSeverity("")
+    if (
+      !(
+        emailRef.current.reportValidity() &&
+        passwordRef.current.reportValidity()
+      )
+    ) {
+      setLoading(false)
+      return
+    }
     await login(emailRef.current.value, passwordRef.current.value)
       .then(() => {
+       
         history.push("/")
       })
       .catch((err) => {
