@@ -12,6 +12,7 @@ import {
   updatePassword,
   updateProfile,
 } from "firebase/auth"
+import { Box, CircularProgress } from "@mui/material"
 export const auth = getAuth(app)
 const AuthContext = createContext()
 export function useAuth() {
@@ -83,7 +84,19 @@ export function AuthProvider({ children }) {
   }
   return (
     <AuthContext.Provider value={value}>
-      {!loading && children}
+      {!loading ? (
+        children
+      ) : (
+        <Box
+          sx={{
+            display: "flex",
+            alignItems:"center",
+            justifyContent: "center",
+            minHeight: "100vh",
+          }}>
+          <CircularProgress />
+        </Box>
+      )}
     </AuthContext.Provider>
   )
 }

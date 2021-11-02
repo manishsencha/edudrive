@@ -41,7 +41,6 @@ function PendingReviews() {
   const [loading, setLoading] = useState(true)
   useEffect(() => {
     async function fetchData() {
-      setData([])
       const q = query(collection(db, "pendingUploads"))
       const querySnapshot = await getDocs(q)
       querySnapshot.forEach((doc) => {
