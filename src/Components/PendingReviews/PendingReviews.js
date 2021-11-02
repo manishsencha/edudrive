@@ -35,7 +35,7 @@ function ReviewCard(props) {
         <Button sx={{ m: 1 }} variant="contained">
           Accept
         </Button>
-        <Button sx={{ m: 1 }} variant="outlined">
+        <Button sx={{ m: 1 }} variant="outlined" color="error">
           Reject
         </Button>
       </Box>

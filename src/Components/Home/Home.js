@@ -17,24 +17,10 @@ function Home() {
           <p>Giving new dimension to modern education</p>
           <div className="home-nav">
             <Link underline="none" href="/signin">
-              <Button
-                style={{
-                  backgroundColor: "rgb(var(--btn-color))",
-                  color: "white",
-                }}
-                variant="contained">
-                Login
-              </Button>
+              <Button variant="contained">Login</Button>
             </Link>
             <Link underline="none" href="/signup">
-              <Button
-                style={{
-                  backgroundColor: "rgb(var(--btn-color))",
-                  color: "white",
-                }}
-                variant="contained">
-                Signup
-              </Button>
+              <Button variant="contained">Signup</Button>
             </Link>
           </div>
         </div>
