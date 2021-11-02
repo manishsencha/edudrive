@@ -20,7 +20,7 @@ export default function LeftDrawer(props) {
   const handleLogout = async (e) => {
     e.preventDefault()
     try {
-      await logout().then(history.pushState("/signin"))
+      await logout().then(history.push("/signin"))
     } catch {}
   }
   return (
