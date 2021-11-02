@@ -4,6 +4,7 @@ import { query, collection, getDocs } from "firebase/firestore"
 import {
   CircularProgress,
   Box,
+  Button,
   Card,
   Typography,
   Stack,
@@ -13,8 +14,8 @@ import "./PendingReviews.css"
 function ReviewCard(props) {
   const { data } = props
   return (
-    <Card sx={{ maxWidth: "800px" }}>
-      <Box sx={{ p: 2, display: "flex", width: "100%" }}>
+    <Card sx={{ maxWidth: "800px", width: "100%", my: 2 }}>
+      <Box sx={{ p: 2 }}>
         <Stack spacing={0.5}>
           <Typography>
             <b>Course : </b>
@@ -31,6 +32,12 @@ function ReviewCard(props) {
             </Link>
           </Typography>
         </Stack>
+        <Button sx={{ m: 1 }} variant="contained">
+          Accept
+        </Button>
+        <Button sx={{ m: 1 }} variant="outlined">
+          Reject
+        </Button>
       </Box>
     </Card>
   )
