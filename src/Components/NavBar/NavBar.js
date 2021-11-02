@@ -39,7 +39,7 @@ function NavBar() {
             EduDrive
           </Typography>
           {currentUser ? (
-            currentUser.displayName
+            <Typography>{currentUser.displayName}</Typography>
           ) : (
             <Button color="inherit">
               <Link href="/signin" style={{ color: "inherit" }}>
