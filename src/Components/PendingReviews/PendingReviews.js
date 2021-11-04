@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react"
 import { db } from "../../Utils/firebase"
-import { query, collection, getDocs, deleteDoc, doc } from "firebase/firestore"
+import {
+  query,
+  collection,
+  getDocs,
+  addDoc,
+  deleteDoc,
+  doc,
+} from "firebase/firestore"
 import { ref, getDownloadURL, deleteObject } from "firebase/storage"
 import {
   CircularProgress,
@@ -18,7 +25,7 @@ function ReviewCard(props) {
   const [title] = useState(props.title)
   const [content, setContent] = useState(props.content)
   const [type] = useState(props.type)
-  const [rejecting, setRejecting] = useState(false)
+  const [processing, setProcessing] = useState(false)
   const [fetching, setFetching] = useState(false)
   useEffect(() => {
     async function fetchPdf() {
@@ -33,17 +40,30 @@ function ReviewCard(props) {
     fetchPdf()
   }, [type, props.content])
   const handleReject = async () => {
-    setRejecting(true)
+    setProcessing(true)
     if (type === "pdf") {
       await deleteObject(ref(storage, props.content)).then(async () => {
         await deleteDoc(doc(db, "pendingUploads", props.id))
       })
 
-      setRejecting(false)
+      setProcessing(false)
       return window.location.reload()
     }
     await deleteDoc(doc(db, "pendingUploads", props.id))
-    setRejecting(false)
+    setProcessing(false)
+    return window.location.reload()
+  }
+  const handleAccept = async () => {
+    setProcessing(true)
+    const data = {
+      content: content,
+      title: title,
+      type: type,
+    }
+    await addDoc(collection(db, course), data).then(async () => {
+      await deleteDoc(doc(db, "pendingUploads", props.id))
+    })
+    setProcessing(false)
     return window.location.reload()
   }
   return (
@@ -68,16 +88,20 @@ function ReviewCard(props) {
             </Link>
           </Typography>
         </Stack>
-        <Button sx={{ m: 1 }} variant="contained">
-          Accept
+        <Button
+          sx={{ m: 1 }}
+          variant="contained"
+          disabled={processing}
+          onClick={handleAccept}>
+          {processing ? "Please wait..." : "Accept"}
         </Button>
         <Button
           sx={{ m: 1 }}
           variant="outlined"
           color="error"
-          disabled={rejecting}
+          disabled={processing}
           onClick={handleReject}>
-          {rejecting ? "Rejecting..." : "Reject"}
+          {processing ? "Please wait..." : "Reject"}
         </Button>
       </Box>
     </Card>
