@@ -17,6 +17,8 @@ import {
   Typography,
   Stack,
   Link,
+  Alert,
+  Snackbar,
 } from "@mui/material"
 import { storage } from "../../Utils/firebase"
 import "./PendingReviews.css"
@@ -27,6 +29,18 @@ function ReviewCard(props) {
   const [type] = useState(props.type)
   const [processing, setProcessing] = useState(false)
   const [fetching, setFetching] = useState(false)
+  const [accepted, setAccepted] = useState(false)
+  const [rejected, setRejected] = useState(false)
+  const [snackbarOpen, setSnackbarOpen] = useState(false)
+  const [snackbarMessage, setSnackbarMessage] = useState("")
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return
+    }
+
+    setSnackbarOpen(false)
+  }
+
   useEffect(() => {
     async function fetchPdf() {
       if (type === "pdf") {
@@ -41,17 +55,18 @@ function ReviewCard(props) {
   }, [type, props.content])
   const handleReject = async () => {
     setProcessing(true)
-    if (type === "pdf") {
-      await deleteObject(ref(storage, props.content)).then(async () => {
-        await deleteDoc(doc(db, "pendingUploads", props.id))
-      })
-
+    try {
+      if (type === "pdf") {
+        await deleteObject(ref(storage, props.content))
+      }
+      await deleteDoc(doc(db, "pendingUploads", props.id))
       setProcessing(false)
-      return window.location.reload()
+      return setRejected(true)
+    } catch (e) {
+      setProcessing(false)
+      setSnackbarOpen(true)
+      setSnackbarMessage("Something went wrong..")
     }
-    await deleteDoc(doc(db, "pendingUploads", props.id))
-    setProcessing(false)
-    return window.location.reload()
   }
   const handleAccept = async () => {
     setProcessing(true)
@@ -59,15 +74,31 @@ function ReviewCard(props) {
       content: content,
       title: title,
       type: type,
+      upvotes: 0,
+      downvotes: 0,
     }
-    await addDoc(collection(db, course), data).then(async () => {
-      await deleteDoc(doc(db, "pendingUploads", props.id))
-    })
-    setProcessing(false)
-    return window.location.reload()
+    try {
+      await addDoc(collection(db, course), data).then(async () => {
+        await deleteDoc(doc(db, "pendingUploads", props.id))
+      })
+      setProcessing(false)
+      return setAccepted(true)
+    } catch (e) {
+      setProcessing(false)
+      setSnackbarOpen(true)
+      setSnackbarMessage("Something went wrong..")
+    }
   }
   return (
     <Card sx={{ maxWidth: "800px", width: "100%", my: 2 }}>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleClose}>
+        <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
       <Box sx={{ p: 2 }}>
         <Stack spacing={0.5}>
           <Typography>
@@ -84,25 +115,55 @@ function ReviewCard(props) {
               href={content}
               target="_blank"
               sx={{ textOverflow: "ellipsis" }}>
-              {fetching ? <CircularProgress /> : content}
+              {fetching ? <CircularProgress size="inherit" /> : content}
             </Link>
           </Typography>
         </Stack>
-        <Button
-          sx={{ m: 1 }}
-          variant="contained"
-          disabled={processing}
-          onClick={handleAccept}>
-          {processing ? "Please wait..." : "Accept"}
-        </Button>
-        <Button
-          sx={{ m: 1 }}
-          variant="outlined"
-          color="error"
-          disabled={processing}
-          onClick={handleReject}>
-          {processing ? "Please wait..." : "Reject"}
-        </Button>
+        {accepted ? (
+          <Stack direction="row" mt={2} spacing={0.5}>
+            <Alert severity="success">Accepted</Alert>
+          </Stack>
+        ) : rejected ? (
+          <Stack direction="row" spacing={0.5} mt={2}>
+            <Alert severity="error">Rejected</Alert>
+          </Stack>
+        ) : (
+          <>
+            <Button
+              sx={{ m: 1 }}
+              variant="contained"
+              disabled={processing}
+              onClick={handleAccept}>
+              {processing ? (
+                <Stack
+                  sx={{ display: "flex", alignItems: "center" }}
+                  direction="row"
+                  spacing={1}>
+                  <CircularProgress size={20} /> <p>Please wait...</p>
+                </Stack>
+              ) : (
+                "Accept"
+              )}
+            </Button>
+            <Button
+              sx={{ m: 1 }}
+              variant="outlined"
+              color="error"
+              disabled={processing}
+              onClick={handleReject}>
+              {processing ? (
+                <Stack
+                  sx={{ display: "flex", alignItems: "center" }}
+                  direction="row"
+                  spacing={1}>
+                  <CircularProgress size={20} /> <p>Please wait...</p>
+                </Stack>
+              ) : (
+                "Reject"
+              )}
+            </Button>
+          </>
+        )}
       </Box>
     </Card>
   )

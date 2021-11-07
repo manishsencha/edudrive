@@ -87,7 +87,7 @@ export default function LeftDrawer(props) {
                     alignItems: "center",
                   }}
                   underline="none"
-                  href="/courses">
+                  href="/">
                   <ListItemIcon>
                     <BookIcon />
                   </ListItemIcon>
