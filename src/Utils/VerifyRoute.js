@@ -1,7 +1,7 @@
 import React from "react"
 import { Route, Redirect } from "react-router-dom"
 import { useAuth } from "../Contexts/AuthContext"
-function VerifiedRoute({ component: Component, ...rest }) {
+function VerifyRoute({ component: Component, ...rest }) {
   const { currentUser } = useAuth()
   return (
     <Route
@@ -17,4 +17,4 @@ function VerifiedRoute({ component: Component, ...rest }) {
   )
 }
 
-export default VerifiedRoute
+export default VerifyRoute

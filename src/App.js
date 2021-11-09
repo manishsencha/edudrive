@@ -13,7 +13,7 @@ import Signin from "./Components/Signin/Signin"
 import NavBar from "./Components/NavBar/NavBar"
 import PendingReviews from "./Components/PendingReviews/PendingReviews"
 import Upload from "./Components/Upload/Upload"
-import VerifiedRoute from "./Utils/VerifiedRoute"
+import VerifyRoute from "./Utils/VerifyRoute"
 import VerifyAccount from "./Components/VerfiyAccount/VerifyAccount"
 function App() {
   return (
@@ -29,7 +29,7 @@ function App() {
           <FreeRoute path="/signin" component={Signin} />
           <FreeRoute path="/forgotpassword" component={ForgotPassword} />
           <PrivateRoute path="/upload" component={Upload} />
-          <VerifiedRoute path="/verifyaccount" component={VerifyAccount} />
+          <VerifyRoute path="/verifyaccount" component={VerifyAccount} />
         </Switch>
       </AuthProvider>
     </Router>
