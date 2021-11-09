@@ -35,8 +35,8 @@ function Dashboard() {
         querySnapshot.forEach((doc) => {
           setCourseData((e) => [...e, doc.data()])
         })
-        setLoading(false)
       }
+      setLoading(false)
     }
     fetchData()
   }, [selectedCourse])
@@ -49,7 +49,7 @@ function Dashboard() {
         alignItems: "center",
         width: "100%",
       }}>
-      <Box sx={{ maxWidth: 800, width: "100%" }}>
+      <Box sx={{ maxWidth: 800, width: "90%", mx: 2 }}>
         <FormControl sx={{ my: 2 }} fullWidth>
           {fetching ? (
             <Stack
