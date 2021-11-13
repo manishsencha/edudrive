@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react"
 import { getAuth } from "firebase/auth"
 import app, { db } from "../Utils/firebase"
-import { doc, getDoc } from "@firebase/firestore"
+import { doc, getDoc, setDoc } from "@firebase/firestore"
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -34,6 +34,10 @@ export function AuthProvider({ children }) {
         if (user) {
           await updateProfile(user, { displayName: name })
           console.log(user)
+          await setDoc(doc(db, "userData", user.uid), {
+            upvoteIds: [],
+            downvoteIds: [],
+          })
         }
       }
     )
@@ -90,7 +94,7 @@ export function AuthProvider({ children }) {
         <Box
           sx={{
             display: "flex",
-            alignItems:"center",
+            alignItems: "center",
             justifyContent: "center",
             minHeight: "100vh",
           }}>
