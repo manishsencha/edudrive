@@ -7,20 +7,19 @@ function VerifyAccount() {
   const [severity, setSeverity] = useState("")
   const [message, setMessage] = useState(null)
   const { currentUser } = useAuth()
-  console.log(currentUser)
   async function handleSubmit() {
     setLoading(true)
     setMessage(null)
     setSeverity("")
     await sendEmailVerification(currentUser)
       .then(() => {
-        setMessage("Verification Email Sent!!")
         setSeverity("success")
+        setMessage("Verification Email Sent!!")
         setLoading(false)
       })
       .catch((err) => {
-        setMessage("Something went wrong. Please try again..")
         setSeverity("error")
+        setMessage("Something went wrong. Please try again..")
         setLoading(false)
       })
   }
