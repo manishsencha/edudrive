@@ -6,6 +6,7 @@ import {
   doc,
   getDoc,
   getDocs,
+  increment,
   query,
   updateDoc,
 } from "@firebase/firestore"
@@ -56,7 +57,7 @@ function DataCard(props) {
         setDownvoteCount((a) => a - 1)
         setDownvoted(false)
         await updateDoc(doc(db, course, id), {
-          downvotes: downvoteCount,
+          downvotes: increment(-1),
         })
       }
       await updateDoc(doc(db, "userData", currentUser.uid), {
@@ -65,10 +66,11 @@ function DataCard(props) {
       setUpvoteCount((a) => a + 1)
       setUpvoted(true)
       await updateDoc(doc(db, course, id), {
-        upvotes: upvoteCount,
+        upvotes: increment(1),
       })
       setUpdating(false)
     } catch (e) {
+      console.log(e)
       setUpdating(false)
     }
   }
@@ -87,7 +89,7 @@ function DataCard(props) {
         setUpvoteCount((a) => a - 1)
         setUpvoted(false)
         await updateDoc(doc(db, course, id), {
-          upvotes: upvoteCount,
+          upvotes: increment(-1),
         })
       }
       await updateDoc(doc(db, "userData", currentUser.uid), {
@@ -96,10 +98,11 @@ function DataCard(props) {
       setDownvoteCount((a) => a + 1)
       setDownvoted(true)
       await updateDoc(doc(db, course, id), {
-        downvotes: downvoteCount,
+        downvotes: increment(1),
       })
       setUpdating(false)
     } catch (e) {
+      console.log(e)
       setUpdating(false)
     }
   }

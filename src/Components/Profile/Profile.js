@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { useAuth } from "../../Contexts/AuthContext"
-import { Box } from "@mui/material"
+import { Box, Stack, Button, TextField } from "@mui/material"
 export default function Profile() {
   const { currentUser } = useAuth()
   const [editName, setEditName] = useState(false)
@@ -11,31 +11,42 @@ export default function Profile() {
     setEditName(false)
   }
   return (
-    <Box sx={{ p: 2, pt: 8 }}>
+    <Box sx={{ p: 2, pt: 10 }}>
       <center>
         <h1>Profile</h1>
       </center>
-      <div style={{ display: "flex" }}>
-        <div>Name :</div>
-        {editName ? (
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        ) : (
-          <div>{name}</div>
-        )}
-        {editName ? (
-          <div onClick={handleNameUpdate}>Update</div>
-        ) : (
-          <div onClick={() => setEditName(true)}>Edit</div>
-        )}
-      </div>
-      <div style={{ display: "flex" }}>
-        <div> Email : </div>
-        <div>{currentUser.email}</div>
-      </div>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          fontSize: 20,
+        }}>
+        <Stack direction="row" alignItems="center" spacing={2}>
+          <Box sx={{ fontWeight: "bold" }}>Name :</Box>
+          <Box>
+            {editName ? (
+              <TextField
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+            ) : (
+              name
+            )}
+          </Box>
+          <Box>
+            {editName ? (
+              <Button variant="outlined" onClick={handleNameUpdate}>
+                Update
+              </Button>
+            ) : (
+              <Button variant="outlined" onClick={() => setEditName(true)}>
+                Edit
+              </Button>
+            )}
+          </Box>
+        </Stack>
+      </Box>
     </Box>
   )
 }
